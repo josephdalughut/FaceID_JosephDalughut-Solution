@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Joseph Dalughut on 13/06/2021, 17:58
+  ~ Copyright (c) 2021 . All rights reserved.
+  -->
+
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">http://3.89.138.187</domain>
+    </domain-config>
+</network-security-config>

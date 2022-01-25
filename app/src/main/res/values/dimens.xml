@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="height_buttons">56dp</dimen>
+    <dimen name="height_buttons_half">28dp</dimen>
+    <dimen name="size_txt_onboarding_title">24sp</dimen>
+    <dimen name="size_txt_onboarding_desc">16sp</dimen>
+</resources>

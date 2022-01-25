@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Joseph Dalughut on 12/09/2021, 11:23
+  ~ Copyright (c) 2021 . All rights reserved.
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/verifoxx_blue_accent"/>
+    <corners android:radius="@dimen/height_buttons_half"/>
+</shape>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">OpenCVSample</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_instead">Login Instead</string>
+    <string name="continue_to_registrationn">Continue</string>
+    <string name="onboarding_title">Welcome to the Face ID App</string>
+    <string name="onboarding_description">You will now begin the registration process by taking a selfie or a short 10 minute video.\n\n Please ensure that you are in a well lit area and have a good camera.</string>
+</resources>
