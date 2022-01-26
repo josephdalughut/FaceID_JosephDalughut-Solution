@@ -1,5 +1,5 @@
 /*
- * Created by Joseph Dalughut on 21/10/2021, 23:25
+ * Created by Joseph Dalughut.
  * Copyright (c) 2021 . All rights reserved.
  */
 
@@ -11,7 +11,7 @@ import androidx.security.crypto.MasterKey
 import com.verifoxx.faceID_JosephDalughut.core.Application
 
 /**
- * A helper class for storing credentials securely.
+ * A helper class for storing credentials securely in [SharedPreferences].
  */
 object SecureSharedPreferences {
 

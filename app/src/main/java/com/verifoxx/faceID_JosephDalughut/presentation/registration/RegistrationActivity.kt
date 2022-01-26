@@ -8,15 +8,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import com.verifoxx.faceID_JosephDalughut.R
 import com.verifoxx.faceID_JosephDalughut.databinding.ActivityRegistrationBinding
-import com.verifoxx.faceID_JosephDalughut.presentation.FragmentStateAdapter
 import com.verifoxx.faceID_JosephDalughut.presentation.FragmentStatePagerAdapter
 import com.verifoxx.faceID_JosephDalughut.presentation.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_registration.*
-import org.opencv.android.OpenCVLoader
 
 /**
  * The [Activity] responsible for the registration process. This activity houses a [ViewPager] with
@@ -38,22 +35,24 @@ class RegistrationActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupPager()
         observeModel()
-        OpenCVLoader.initDebug()
     }
 
     /**
      * Sets-up the [ViewPager] to display the fragments responsible for registration.
      */
     private fun setupPager() {
-        val fragments = arrayListOf<Fragment>(RegistrationRequestImageFragment.newInstance(),
-            RegistrationCameraFragment.newInstance(), RegistrationFeatureExtractionFragment.newInstance())
+        val fragments = arrayListOf<Fragment>(RegistrationFragment.newInstance(),
+            RegistrationCaptureMediaFragment.newInstance(), RegistrationFeatureExtractionFragment.newInstance())
         adapter = FragmentStatePagerAdapter(supportFragmentManager, androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
         adapter.fragments = fragments
         binding.pager.adapter = adapter
     }
 
+    /**
+     * Observes live-data from our view-model about what to do.
+     */
     private fun observeModel() {
-        viewModel.events.observe(this, {
+        viewModel.events.observe(this) {
             when (it) {
                 RegistrationViewModel.Event.NAV_LANDING -> {
                     // navigate to the registration screen
@@ -78,7 +77,7 @@ class RegistrationActivity : AppCompatActivity() {
                     notifyRegistrationFailure()
                 }
             }
-        })
+        }
     }
 
     private fun notifyRegistrationSuccess() {
@@ -106,5 +105,6 @@ class RegistrationActivity : AppCompatActivity() {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
     }
+
 
 }

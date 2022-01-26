@@ -8,5 +8,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "OpenCVSample"
 include ':app'
-include ':dlib'
-include ':openCVLibrary343'

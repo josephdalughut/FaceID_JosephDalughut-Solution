@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">OpenCVSample</string>
+    <string name="app_name">FaceID_Joseph Dalughut</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_instead">Login Instead</string>
     <string name="continue_to_registrationn">Continue</string>
     <string name="onboarding_title">Welcome to the Face ID App</string>
-    <string name="onboarding_description">You will now begin the registration process by taking a selfie or a short 10 minute video.\n\n Please ensure that you are in a well lit area and have a good camera.</string>
-    <string name="recording_description">Make sure your face is clearly focussed and visible, then red button once to take a photo. \nIf you want to take a video, long-press the button instead and wait for 10 seconds.</string>
+    <string name="onboarding_description">You will now begin the registration process by providing a selfie or a short 10 minute video.</string>
+    <string name="recording_description">Make sure your face is clearly focussed and visible, then press the red button once to take a photo.</string>
     <string name="permissions_request_description">Please enable access to your camera to begin.</string>
     <string name="enable_permissions">Allow access</string>
     <string name="error_connecting_camera">Error connecting camera. Please try again</string>
@@ -22,4 +22,9 @@
     <string name="login_error_message">Login Unsuccessful</string>
     <string name="login_success_message">Login Successful</string>
     <string name="logging_in">Logging in...</string>
+    <string name="select_video">Select Video</string>
+    <string name="select_image">Select Image</string>
+    <string name="image_select_hint">Please select an option below</string>
+    <string name="onboarding_assure_in">Ensure you are visible in the image or video you pick</string>
+    <string name="register">Register</string>
 </resources>

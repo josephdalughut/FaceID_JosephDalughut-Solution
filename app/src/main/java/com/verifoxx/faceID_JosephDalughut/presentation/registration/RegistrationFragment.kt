@@ -5,37 +5,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
-import com.verifoxx.faceID_JosephDalughut.R
-import com.verifoxx.faceID_JosephDalughut.databinding.FragmentRegistrationCameraBinding
-import com.verifoxx.faceID_JosephDalughut.databinding.FragmentRegistrationFeatureExtractionBinding
-
+import com.verifoxx.faceID_JosephDalughut.databinding.FragmentRegistrationRequestImageBinding
 
 /**
- * The fragment which shadows the extraction process from a pre-registered image/video until it's done.
- * Use the [RegistrationFeatureExtractionFragment.newInstance] factory method to
+ * The [Fragment] the user sees first, asking them to login or sign-in.
+ * Use the [RegistrationFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class RegistrationFeatureExtractionFragment : Fragment() {
+class RegistrationFragment : Fragment() {
 
     companion object {
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @return A new instance of fragment RegistrationFeatureExtractionFragment.
+         * @return A new instance of fragment RegistrationRequestImageFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
-            RegistrationFeatureExtractionFragment()
+            RegistrationFragment()
+
     }
 
+    private lateinit var binding: FragmentRegistrationRequestImageBinding
     private val viewModel: RegistrationViewModel get() {
         return (activity as RegistrationActivity).viewModel
     }
-    lateinit var binding: FragmentRegistrationFeatureExtractionBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,16 +41,20 @@ class RegistrationFeatureExtractionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentRegistrationFeatureExtractionBinding.inflate(inflater)
+        binding = FragmentRegistrationRequestImageBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.registrationImageUri.observe(viewLifecycleOwner) {
-            Glide.with(requireContext()).load(it).centerCrop().fitCenter().into(binding.imgProfile)
+        binding.btnClose.setOnClickListener {
+            viewModel.onClickCloseButton()
+        }
+        binding.btnLogin.setOnClickListener {
+            viewModel.onClickLoginButton()
+        }
+        binding.btnRegister.setOnClickListener {
+            viewModel.onClickRegistrationButton()
         }
     }
-
 }

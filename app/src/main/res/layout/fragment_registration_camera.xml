@@ -27,8 +27,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.registration.RegistrationCameraFragment">
-
+        >
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="@dimen/height_buttons"

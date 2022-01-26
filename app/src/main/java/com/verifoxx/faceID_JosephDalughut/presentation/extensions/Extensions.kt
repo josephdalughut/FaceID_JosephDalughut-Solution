@@ -1,5 +1,5 @@
 /*
- * Created by Joseph Dalughut on 13/06/2021, 17:30
+ * Created by Joseph Dalughut.
  * Copyright (c) 2021 . All rights reserved.
  */
 
@@ -16,9 +16,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.snackbar.Snackbar
 import com.verifoxx.faceID_JosephDalughut.R
-import java.text.NumberFormat
-import java.util.*
-import kotlin.math.roundToInt
 
 /**
  * Hides the keyboard in a specific [Activity]

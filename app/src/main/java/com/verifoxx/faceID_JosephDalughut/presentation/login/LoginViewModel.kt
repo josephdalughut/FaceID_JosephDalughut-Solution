@@ -1,41 +1,29 @@
 package com.verifoxx.faceID_JosephDalughut.presentation.login
 
-import android.content.SharedPreferences
-import android.graphics.BitmapFactory
-import android.util.Log
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.tzutalin.dlib.FaceRec
-import com.verifoxx.faceID_JosephDalughut.core.FACE_REC_DIR
-import com.verifoxx.faceID_JosephDalughut.core.USER_KEY
-import com.verifoxx.faceID_JosephDalughut.domain.auth.Authenticator
-import com.verifoxx.faceID_JosephDalughut.domain.model.User
-import com.verifoxx.faceID_JosephDalughut.domain.util.FeatureExtractor
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.face.FaceContour
+import com.google.mlkit.vision.face.FaceDetection
+import com.google.mlkit.vision.face.FaceDetectorOptions
+import com.google.mlkit.vision.face.FaceLandmark
+import com.verifoxx.faceID_JosephDalughut.core.FACES
+import com.verifoxx.faceID_JosephDalughut.domain.model.Face
 import com.verifoxx.faceID_JosephDalughut.preferences.SecureSharedPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.opencv.android.Utils
-import org.opencv.core.Mat
 import java.io.File
 import javax.inject.Inject
-import org.opencv.imgproc.Imgproc
-
-import org.opencv.core.MatOfPoint
-
-import org.opencv.core.Core.BORDER_DEFAULT
-import org.opencv.core.Size
-import org.opencv.imgproc.Imgproc.Canny
-import org.opencv.imgproc.Imgproc.cvtColor
 
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val sharedPreferences: SecureSharedPreferences,
-                                         private val featureExtractor: FeatureExtractor): ViewModel() {
+class LoginViewModel @Inject constructor(private val sharedPreferences: SecureSharedPreferences): ViewModel() {
 
     companion object {
 
@@ -56,34 +44,67 @@ class LoginViewModel @Inject constructor(private val sharedPreferences: SecureSh
     /**
      * Called when an image is captured for registration.
      */
-    fun onImageCapture(file: File) {
+    fun onImageCapture(context: Context, file: File) {
         events.postValue(Event.NAV_FEATURE_EXTRACTION)
         registrationImageFile.postValue(file)
-        detectFace(file)
+        val inputImage = InputImage.fromFilePath(context, Uri.fromFile(file))
+        compareFaces(inputImage)
     }
 
-    private fun detectFace(file: File) {
-        CoroutineScope(Dispatchers.IO).launch(CoroutineExceptionHandler { _, throwable ->
-            throwable.printStackTrace()
-            // handle error
-            onLoginFailure()
-        }) {
-            val contours = featureExtractor.extractImageFeatures(file)
-            val gson = Gson()
-            sharedPreferences.get().getString(USER_KEY, null)?.let {
-                val user = gson.fromJson(it, User::class.java)
-                val userContours = user.contours
-                val distance = featureExtractor.compareContours(contours, userContours)
-                Log.d(LOG_TAG, "Distance $distance")
-                if (distance < 5) {
-                    onLoginSuccess()
-                } else {
+    /**
+     * Compares the logged-in face with the saved ones using the MLKit api's.
+     *
+     * @param inputImage An input image for detection.
+     */
+    private fun compareFaces(inputImage: InputImage) {
+        val detector = FaceDetection.getClient(getFaceDetectorOptions())
+        detector.process(inputImage)
+            .addOnSuccessListener { faces ->
+
+                // fetch our saved faces.
+                val gson = Gson()
+                val savedFacesJson = sharedPreferences.get().getString(FACES, null)
+
+                savedFacesJson?.let {
+                    val type = object : TypeToken<List<Face>>() {}.type
+                    val savedFaces = gson.fromJson<ArrayList<Face>>(it, type)
+                    for (face in faces) {
+
+                        // we'll now compare each face found in the login with saved ones.
+                        val bounds = face.boundingBox
+                        val rotY = face.headEulerAngleY // Head is rotated to the right rotY degrees
+                        val rotZ = face.headEulerAngleZ // Head is tilted sideways rotZ degrees
+
+                        val leftEar = face.getLandmark(FaceLandmark.LEFT_EAR)
+                        val leftEyeContour = face.getContour(FaceContour.LEFT_EYE)?.points
+                        val upperLipBottomContour = face.getContour(FaceContour.UPPER_LIP_BOTTOM)?.points
+
+                        val user = Face(bounds, rotY, rotZ, leftEar, leftEyeContour, upperLipBottomContour)
+
+                        savedFaces.forEach { savedUser ->
+                            if (savedUser == user) {
+                                onLoginSuccess()
+                                return@addOnSuccessListener
+                            }
+                        }
+                    }
+                    onLoginFailure()
+                } ?: run {
                     onLoginFailure()
                 }
-            } ?: run {
+            }
+            .addOnFailureListener { e ->
                 onLoginFailure()
             }
-        }
+    }
+
+    fun getFaceDetectorOptions(): FaceDetectorOptions {
+        val highAccuracyOpts = FaceDetectorOptions.Builder()
+            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
+            .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
+            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_NONE)
+            .build()
+        return highAccuracyOpts
     }
 
     private fun onLoginSuccess() {

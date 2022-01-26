@@ -5,13 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import com.verifoxx.faceID_JosephDalughut.databinding.FragmentLoginDetailExtractionBinding
-import com.verifoxx.faceID_JosephDalughut.databinding.FragmentRegistrationFeatureExtractionBinding
 
 
 /**
- * A simple [Fragment] subclass.
+ * A fragment-class which shadows the login-image extraction process, showing a progress bar until it's
+ * done.
  * Use the [LoginFeatureExtractionFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
@@ -51,9 +52,9 @@ class LoginFeatureExtractionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.registrationImageFile.observe(viewLifecycleOwner, {
-            Picasso.get().load(it).centerCrop().fit().into(binding.imgProfile)
-        })
+        viewModel.registrationImageFile.observe(viewLifecycleOwner) {
+            Glide.with(requireActivity()).load(it).centerCrop().fitCenter().into(binding.imgProfile)
+        }
     }
 
 }

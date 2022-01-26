@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.verifoxx.faceID_JosephDalughut.core.USER_KEY
+import com.verifoxx.faceID_JosephDalughut.core.FACES
 import com.verifoxx.faceID_JosephDalughut.databinding.ActivityLandingBinding
 import com.verifoxx.faceID_JosephDalughut.preferences.SecureSharedPreferences
 import com.verifoxx.faceID_JosephDalughut.presentation.login.LoginActivity
@@ -30,7 +30,7 @@ class LandingActivity : AppCompatActivity() {
         binding = ActivityLandingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (sharedPreferences!!.get().contains(USER_KEY)) {
+        if (sharedPreferences!!.get().contains(FACES)) {
             // move to login as we have a user
             navigateToLogin()
         } else {

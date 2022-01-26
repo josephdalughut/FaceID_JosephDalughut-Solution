@@ -7,22 +7,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import com.verifoxx.faceID_JosephDalughut.R
 import com.verifoxx.faceID_JosephDalughut.databinding.ActivityLoginBinding
-import com.verifoxx.faceID_JosephDalughut.databinding.ActivityRegistrationBinding
-import com.verifoxx.faceID_JosephDalughut.presentation.FragmentStateAdapter
 import com.verifoxx.faceID_JosephDalughut.presentation.FragmentStatePagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_registration.*
-import org.opencv.android.OpenCVLoader
 
 /**
- * The [Activity] responsible for the registration process. This activity houses a [ViewPager] with
- *  a couple of fragments which:
- *  - Inform the user of the registration process and rules.
- *  - Captures their selfie/video
- *  - Extracts their info and stores it on the app for future use.
+ * The [Activity] responsible for the logging in the user by comparing their face to stored ones during registration.
  */
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -37,14 +29,13 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupPager()
         observeModel()
-        OpenCVLoader.initDebug()
     }
 
     /**
      * Sets-up the [ViewPager] to display the fragments responsible for registration.
      */
     private fun setupPager() {
-        val fragments = arrayListOf<Fragment>(LoginFragment.newInstance(),
+        val fragments = arrayListOf<Fragment>(LoginCameraFragment.newInstance(),
             LoginFeatureExtractionFragment.newInstance())
         adapter = FragmentStatePagerAdapter(supportFragmentManager, androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
         adapter.fragments = fragments
@@ -52,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observeModel() {
-        viewModel.events.observe(this, {
+        viewModel.events.observe(this) {
             when (it) {
                 LoginViewModel.Event.NAV_CLOSE -> {
                     finish()
@@ -67,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
                     notifyLoginFailure()
                 }
             }
-        })
+        }
     }
 
     private fun notifyLoginSuccess() {

@@ -15,7 +15,7 @@ android {
         targetSdk 32
         versionCode 1
         versionName "FaceID_JosephDalughut"
-        setProperty("archivesBaseName", "Lint-$versionName")
+        setProperty("archivesBaseName", "$versionName")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -65,8 +65,6 @@ android {
 dependencies {
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation project(path: ':dlib')
-    implementation project(path: ':openCVLibrary343')
     def lifecycle_version = "2.3.1"
     def arch_version = "2.1.0"
     def dagger_version = "2.35.1"
@@ -115,6 +113,14 @@ dependencies {
 
     implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
     implementation 'com.tbuonomo:dotsindicator:4.2'
+
+//    implementation 'com.google.mlkit:face-detection:16.1.4'
+    implementation "io.github.iamthevoid.mediapicker:core:1.0.6"
+    implementation "io.github.iamthevoid.mediapicker:coroutines:1.0.6"
+
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
 
 
     // DI
