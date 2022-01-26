@@ -8,6 +8,7 @@
     tools:context=".presentation.registration.RegistrationRequestImageFragment">
 
     <ImageButton
+        android:id="@+id/btnClose"
         android:layout_width="@dimen/height_buttons"
         android:layout_height="@dimen/height_buttons"
         android:background="@color/transparent"
@@ -36,6 +37,7 @@
         android:layout_marginBottom="20dp"
         android:paddingStart="70dp"
         android:paddingEnd="70dp"
+        android:gravity="center"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:fontFamily="@font/silka_bold"
@@ -52,6 +54,7 @@
         android:paddingStart="56dp"
         android:paddingEnd="56dp"
         android:textAlignment="center"
+        android:gravity="center"
         android:alpha="0.5"
         android:textColor="@color/white"
         android:fontFamily="@font/silka_medium"

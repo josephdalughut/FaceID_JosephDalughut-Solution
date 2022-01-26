@@ -10,6 +10,8 @@ import com.verifoxx.faceID_JosephDalughut.data.auth.AndroidAccountAuthenticator
 import com.verifoxx.faceID_JosephDalughut.core.Application
 import com.verifoxx.faceID_JosephDalughut.preferences.SecureSharedPreferences
 import com.verifoxx.faceID_JosephDalughut.domain.auth.Authenticator
+import com.verifoxx.faceID_JosephDalughut.domain.util.FeatureExtractor
+import com.verifoxx.faceID_JosephDalughut.util.FeatureExtractorImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,5 +33,9 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun provideAuthenticator(context: Context): Authenticator = AndroidAccountAuthenticator(context)
+
+    @Provides
+    @Singleton
+    fun provideFeatureExtractor(): FeatureExtractor = FeatureExtractorImpl()
 
 }

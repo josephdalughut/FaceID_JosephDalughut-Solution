@@ -2,8 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'kotlin-parcelize'
     id("dagger.hilt.android.plugin")
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -57,15 +57,21 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    sourceSets { main { jni.srcDirs = ['src/main/jni', 'src/main/jniLib/'] } }
 }
+
 
 dependencies {
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation project(path: ':dlib')
+    implementation project(path: ':openCVLibrary343')
     def lifecycle_version = "2.3.1"
     def arch_version = "2.1.0"
     def dagger_version = "2.35.1"
     def room_version = "2.3.0"
+    def camerax_version = "1.0.1"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.0'
@@ -93,6 +99,11 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation "androidx.camera:camera-camera2:$camerax_version"
+    implementation "androidx.camera:camera-lifecycle:$camerax_version"
+    implementation "androidx.camera:camera-view:1.0.0-alpha27"
 
     implementation "androidx.security:security-crypto:1.1.0-alpha03"
 

@@ -15,7 +15,6 @@ import android.util.Log
 import com.google.gson.Gson
 import com.verifoxx.faceID_JosephDalughut.domain.auth.Authenticator
 import com.verifoxx.faceID_JosephDalughut.domain.model.User
-import com.verifoxx.faceID_JosephDalughut.preferences.SecureSharedPreferences
 
 /**
  * An [Authenticator] backed by Android's own [AbstractAccountAuthenticator] system.
@@ -58,7 +57,7 @@ class AndroidAccountAuthenticator(context: Context) :
     }
 
     override suspend fun setUserAccount(user: User) {
-        Account(user.email, ACCOUNT_TYPE).also {
+        Account(user.id, ACCOUNT_TYPE).also {
             val data = Gson().toJson(user)
             val dataBundle = Bundle().apply {
                 putString("data", data)
@@ -69,9 +68,8 @@ class AndroidAccountAuthenticator(context: Context) :
     }
 
     override suspend fun updateUserAccount(user: User) {
-        Account(user.email, ACCOUNT_TYPE).also {
+        Account(user.id, ACCOUNT_TYPE).also {
             val data = Gson().toJson(user)
-            Log.d(LOG_TAG, "Updating user data: $data")
             accountManager.setUserData(it, "data", data)
         }
         currentUser = user
@@ -79,42 +77,12 @@ class AndroidAccountAuthenticator(context: Context) :
 
     override suspend fun removeUserAccount() {
         loadUserAccount()?.let {
-            Account(it.email, ACCOUNT_TYPE).also { account ->
+            Account(it.id, ACCOUNT_TYPE).also { account ->
                 accountManager.removeAccountExplicitly(account)
             }
         }.also {
             this.currentUser = null
         }
-    }
-
-    override fun getAccessToken(): String? {
-        return SecureSharedPreferences.get().getString(ACCESS_TOKEN_KEY, null)
-    }
-
-    override fun setAccessToken(token: String?) {
-        token?.let {
-            SecureSharedPreferences.edit().putString(ACCESS_TOKEN_KEY, it).apply()
-        } ?: run {
-            SecureSharedPreferences.edit().remove(ACCESS_TOKEN_KEY).apply()
-        }
-        return
-    }
-
-    override fun getPasscode(): String? {
-        return SecureSharedPreferences.get().getString(PASSCODE_KEY, null)
-    }
-
-    override fun setPasscode(passcode: String?) {
-        passcode?.let {
-            SecureSharedPreferences.edit().putString(PASSCODE_KEY, it).apply()
-        } ?: run {
-            SecureSharedPreferences.edit().remove(PASSCODE_KEY).apply()
-        }
-        return
-    }
-
-    override fun hasValidPasscode(): Boolean {
-        return !getPasscode().isNullOrEmpty()
     }
 
     // UNUSED

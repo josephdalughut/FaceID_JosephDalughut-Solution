@@ -5,15 +5,14 @@
 
 package com.verifoxx.faceID_JosephDalughut.domain.model
 
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
+import org.opencv.core.MatOfPoint
+
 
 /**
  * A common user of the Lint Application
  */
-@Parcelize
-data class User(var id: String,
-                var name: String,
-                var email: String
-): Parcelable
+data class User(
+    var id: String,
+    var contours: List<MatOfPoint>
+
+)

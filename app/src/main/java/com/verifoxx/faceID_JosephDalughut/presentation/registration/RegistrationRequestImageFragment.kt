@@ -29,6 +29,9 @@ class RegistrationRequestImageFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentRegistrationRequestImageBinding
+    private val viewModel: RegistrationViewModel get() {
+        return (activity as RegistrationActivity).viewModel
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,5 +44,18 @@ class RegistrationRequestImageFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentRegistrationRequestImageBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnClose.setOnClickListener {
+            viewModel.onClickCloseButton()
+        }
+        binding.btnLogin.setOnClickListener {
+            viewModel.onClickLoginButton()
+        }
+        binding.btnRegister.setOnClickListener {
+            viewModel.onClickRegistrationButton()
+        }
     }
 }

@@ -11,6 +11,10 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.textfield.TextInputLayout
 import com.verifoxx.faceID_JosephDalughut.R
 
+
+const val FACE_REC_DIR = "Face ID App"
+const val USER_KEY = "user"
+
 fun showError(textInputLayout: TextInputLayout, editText: EditText, @StringRes messageRes: Int) {
     textInputLayout.error = textInputLayout.resources.getString(messageRes)
     editText.requestFocus()

@@ -39,32 +39,4 @@ interface Authenticator {
      */
     suspend fun removeUserAccount()
 
-    /**
-     * Fetches the users access token.
-     */
-    fun getAccessToken(): String?
-
-    /**
-     * Sets the users access token
-     * @param token The users access token.
-     */
-    fun setAccessToken(token: String?)
-
-    /**
-     * Fetches the users passcode.
-     */
-    fun getPasscode(): String?
-
-    /**
-     * Sets the users passcode.
-     * @param passcode The users passcode.
-     */
-    fun setPasscode(passcode: String?)
-
-    /**
-     * Checks if the user has a valid passcode tied to their account.
-     * @return true if the user has a valid passcode.
-     */
-    fun hasValidPasscode(): Boolean
-
 }
